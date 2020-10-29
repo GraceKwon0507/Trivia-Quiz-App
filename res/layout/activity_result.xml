@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Correct"
+        android:id="@+id/correct"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:background="#88DC8D"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:textSize="19dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restart"
+        android:id="@+id/btnRestart"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="119dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#01579B"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/wrong"
+        android:background="#CF625a"
+        android:layout_below="@+id/correct"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:textSize="19dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/total"
+        android:background="#FFEB3B"
+        android:layout_below="@+id/wrong"
+        android:layout_marginTop="33dp"
+        android:layout_alignRight="@+id/wrong"
+        android:layout_alignEnd="@+id/wrong"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:textSize="19dp" />
+</RelativeLayout>
