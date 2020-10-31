@@ -17,6 +17,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class QuestionsActivity extends AppCompatActivity {
     TextView tv;
@@ -24,12 +30,18 @@ public class QuestionsActivity extends AppCompatActivity {
     Button submitbutton, quitbutton;
     RadioGroup radio_g;
     RadioButton rb1, rb2, rb3, rb4;
+
     int count = 0;
     public static int marks = 0, correct = 0, wrong = 0;
 
-    String[] question = new String[21];
-    final String[] correctA = new String[21];
-    String[][] incorrectA = new String[21][3];
+    String[] question = new String[21]; // get all the questions
+    final String[] correctA = new String[21]; // get all the corrects
+    String[][] incorrectA = new String[21][3]; // get all the incorrects
+    String[] displayQuestions = new String[10]; // choose 10 random questions
+    String chooseQuestion = null; // choose random quesiton
+    String[] answerArray = new String[10]; // array of incorrect & correct answers
+    String[][] displayAnswers = new String[10][4];
+    List answerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +70,35 @@ public class QuestionsActivity extends AppCompatActivity {
 
                 question[i] = qna.getString("question");
                 correctA[i]= qna.getString("correct");
-                System.out.println(correctA[i]);
 
                 JSONArray incorrectAarray = (JSONArray) qna.get("incorrect");
 
-                for (int j = 0; j < qna.length(); j++){
+                for (int j = 0; j <= qna.length(); j++){
                     incorrectA[i][j] = (String) incorrectAarray.get(j);
-//
-//                    int incLen = incorrectA[i][j].length();
-//                    int cLen = correctA[i].length();
-//
-//                    String[] mcq = new String [incLen + cLen];
 
-//                    System.out.println(incorrectA[i][j]);
-//                    System.out.println(incorrectA);
-//                    System.arraycopy(incorrectA, 0, mcq, 0, incLen);
-//                    System.arraycopy(correctA, 0, mcq, 0, cLen);
-//
-//                    System.out.println(mcq[i]);
-                }
+                    answerList = new ArrayList(Arrays.asList(incorrectA[i]));
+                    answerList.addAll(Arrays.asList(correctA[i]));
+                    //System.out.println(answerList);
+                    Object[] answerObject = answerList.toArray();
+                    answerArray[i] = Arrays.toString(answerObject);
+                    displayAnswers[i][j] = (String) answerList.get(j);
+
+                }//System.out.println(displayAnswers[i]);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        // choose 10 questions for each round
+        for (int a = 0; a < 10 ; a++){
+            chooseQuestion = randomQuestions(question);
+
+            //if(chooseQuestion)
+            displayQuestions[a] = chooseQuestion;
+            System.out.println(displayQuestions[a]);
+        }
+
+        // get each element
         submitbutton = (Button) findViewById(R.id.submitButton);
         quitbutton = (Button) findViewById(R.id.quitButton);
 
@@ -94,12 +110,13 @@ public class QuestionsActivity extends AppCompatActivity {
 
         questiontv = (TextView) findViewById(R.id.questions);
 
-        questiontv.setText(question[0]);
+        // apply changes to textview so that the questions and answers change accordingly
+        questiontv.setText(displayQuestions[0]);
 
-        rb1.setText(incorrectA[0][0]);
-        rb2.setText(incorrectA[0][1]);
-        rb3.setText(incorrectA[0][2]);
-        rb4.setText(correctA[0]);
+//        rb1.setText((String) answerList.get(0));
+//        rb2.setText(answerArray[count][1]);
+//        rb3.setText(answerArray[count][2]);
+//        rb4.setText(answerArray[count][3]);
 
         submitbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,11 +147,11 @@ public class QuestionsActivity extends AppCompatActivity {
 
                 if(count<question.length)
                 {
-                    questiontv.setText(question[count]);
-                    rb1.setText(incorrectA[count][0]);
-                    rb2.setText(incorrectA[count][1]);
-                    rb3.setText(incorrectA[count][2]);
-                    rb4.setText(correctA[count]);
+                    questiontv.setText(displayQuestions[count]);
+//                    rb1.setText(answerArray[count][0]);
+//                    rb2.setText(answerArray[count][1]);
+//                    rb3.setText(answerArray[count][2]);
+//                    rb4.setText(answerArray[count][3]);
                 }
                 else
                 {
@@ -172,4 +189,16 @@ public class QuestionsActivity extends AppCompatActivity {
         }
         return json;
     }
+
+    // randomize questions
+    public static String randomQuestions(String [] array) {
+        Random generator = new Random();
+        int randomIndex = generator.nextInt(array.length);
+        return array[randomIndex];
+    }
+
+    // shuffle answers
+//    public void shuffleAnswers() {
+//        Collections.shuffle(this.answers);
+//    }
 }
