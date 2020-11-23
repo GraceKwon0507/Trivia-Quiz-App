@@ -34,7 +34,7 @@ public class QuestionsActivity extends AppCompatActivity {
     RadioGroup radio_g;
     RadioButton rb1, rb2, rb3, rb4;
     int count = 0;
-    public static int marks = 0, correct = 0, wrong = 0;
+    public static int correct = 0, wrong = 0;
 
     String userAnswerString;
 
@@ -63,7 +63,7 @@ public class QuestionsActivity extends AppCompatActivity {
             JSONArray array = new JSONArray(loadJSONFromAsset());
 
             // for loop to get questions and answers
-            for (int i = 0; i < array.length(); i++){
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject qna = array.getJSONObject(i); // get JSONobject
 
                 List<String> answersList = new ArrayList<>();
@@ -75,9 +75,9 @@ public class QuestionsActivity extends AppCompatActivity {
                 List<String> incorrectList;
 
                 // get incorrects
-                String[] incorrectsStringArray = qna.getString("incorrect").replace("[","").replace("]","").split("\",\"");
+                String[] incorrectsStringArray = qna.getString("incorrect").replace("[", "").replace("]", "").split("\",\"");
 
-                incorrectsStringArray[0] =  incorrectsStringArray[0].replace("\"","");
+                incorrectsStringArray[0] = incorrectsStringArray[0].replace("\"", "");
                 incorrectsStringArray[incorrectsStringArray.length - 1] = incorrectsStringArray[incorrectsStringArray.length - 1].replace("\"", "");
 
                 incorrectList = Arrays.asList(incorrectsStringArray);
@@ -122,8 +122,8 @@ public class QuestionsActivity extends AppCompatActivity {
 
                 Object[] questionToCorrectAnswerKeyArray = questionToAnswerKeySet.toArray();
 
-                for(int i = 0; i < questionToCorrectAnswerKeyArray.length; i++){
-                    if(i == count){
+                for (int i = 0; i < questionToCorrectAnswerKeyArray.length; i++) {
+                    if (i == count) {
                         if (userAnswerString.equals(shuffledQuestionToAnswers.get(questionToCorrectAnswerKeyArray[i]).get(0))) {
                             Toast.makeText(getApplicationContext(), "Correct", Toast.LENGTH_SHORT).show();
                             correct++;
@@ -131,8 +131,7 @@ public class QuestionsActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Wrong", Toast.LENGTH_SHORT).show();
                             wrong++;
                         }
-                    }
-                    else if (i > count){
+                    } else if (i > count) {
                         break;
                     }
                 }
@@ -145,7 +144,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
                 radio_g.clearCheck();
 
-                if(count == 10){
+                if (count == 10) {
                     Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
                     startActivity(intent);
                 }
@@ -161,7 +160,9 @@ public class QuestionsActivity extends AppCompatActivity {
         });
     }
 
-    public void shuffleQuestionsAndAnswers(){
+    // method for shuffling questions and answers as a linked hashmap
+    // linkedhashmap so that it's actually stored in the order
+    public void shuffleQuestionsAndAnswers() {
         List<Map.Entry<String, List<String>>> list = new ArrayList<>(questionToAnswers.entrySet());
 
         // shuffle questions
@@ -174,34 +175,34 @@ public class QuestionsActivity extends AppCompatActivity {
 
     // method for radio buttons
     // so that the answers get replaced according to the question
-    public void setNewAnswers(){
+    public void setNewAnswers() {
         Set<String> keySet = shuffledQuestionToAnswers.keySet();
 
         Object[] keyArray = keySet.toArray();
 
-        for(int i = 0; i < keyArray.length; i++){
+        for (int i = 0; i < keyArray.length; i++) {
 
             // check if i equals to count
-            if(i == count){
+            if (i == count) {
                 // get questions
                 // display question # : i+1
-                questiontv.setText(i+1 + ". " + (CharSequence) keyArray[i]);
+                questiontv.setText(i + 1 + ". " + (CharSequence) keyArray[i]);
 
                 // get answers
                 rb1.setText(shuffledQuestionToAnswers.get(keyArray[i]).get(0));
                 rb2.setText(shuffledQuestionToAnswers.get(keyArray[i]).get(1));
                 // check if the third incorrect is null
-                if(shuffledQuestionToAnswers.get(keyArray[i]).size() == 3 || shuffledQuestionToAnswers.get(keyArray[i]).size() == 4) {
+                if (shuffledQuestionToAnswers.get(keyArray[i]).size() == 3 || shuffledQuestionToAnswers.get(keyArray[i]).size() == 4) {
                     rb3.setText(shuffledQuestionToAnswers.get(keyArray[i]).get(2));
-                }else if(shuffledQuestionToAnswers.get(keyArray[i]).size() != 3 || shuffledQuestionToAnswers.get(keyArray[i]).size() != 4){
+                } else if (shuffledQuestionToAnswers.get(keyArray[i]).size() != 3 || shuffledQuestionToAnswers.get(keyArray[i]).size() != 4) {
                     rb3.setText("");
                 }
-                if(shuffledQuestionToAnswers.get(keyArray[i]).size() == 4){
+                if (shuffledQuestionToAnswers.get(keyArray[i]).size() == 4) {
                     rb4.setText(shuffledQuestionToAnswers.get(keyArray[i]).get(3));
-                }else if(shuffledQuestionToAnswers.get(keyArray[i]).size() != 4){
+                } else if (shuffledQuestionToAnswers.get(keyArray[i]).size() != 4) {
                     rb4.setText("");
                 }
-            } else if(i > count){
+            } else if (i > count) {
                 break;
             }
         }
@@ -223,5 +224,4 @@ public class QuestionsActivity extends AppCompatActivity {
         }
         return json;
     }
-
 }
