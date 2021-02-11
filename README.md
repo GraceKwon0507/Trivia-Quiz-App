@@ -1,6 +1,3 @@
-# Tandem for 400
- 
-Acceptance Criteria
 • A user can view questions.
 • Questions with their multiple choice options must be displayed one at a time.
 • Questions should not repeat in a round.
